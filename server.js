@@ -12,16 +12,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/contact', rateLimit({ windowMs: 60 * 1000, max: 5 }));
+app.use('/contact', rateLimit({
+  windowMs: 60 * 1000, 
+  max: 5,              
+}));
 
 const PUBLIC_DIR = path.join(__dirname, 'CV');
 app.use(express.static(PUBLIC_DIR));
 
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
 });
-
 
 app.post('/contact', async (req, res) => {
   const { name, email, subject, message } = req.body;
@@ -29,7 +30,10 @@ app.post('/contact', async (req, res) => {
   try {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
-      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
     });
 
     await transporter.sendMail({
@@ -40,11 +44,13 @@ app.post('/contact', async (req, res) => {
       text: `Name: ${name}\nE-Mail: ${email}\n\n${message}`,
     });
 
-    res.json({ ok: true });
+    res.json({ ok: true, message: 'E-Mail erfolgreich gesendet!' });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ ok: false, error: 'Mail-Versand fehlgeschlagen' });
+    console.error('Mail Fehler:', err);
+    res.status(500).json({ ok: false, error: 'E-Mail Versand fehlgeschlagen' });
   }
 });
 
-app.listen(PORT, () => console.log(`Server läuft auf Port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server läuft auf http://localhost:${PORT}`);
+});
