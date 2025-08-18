@@ -1,56 +1,59 @@
 require('dotenv').config();
 const express = require('express');
-const path = require('path');
-const rateLimit = require('express-rate-limit');
-const cors = require('cors');
+const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-app.use('/contact', rateLimit({
+app.use(bodyParser.json());
+app.use(express.static('public'));
+
+const limiter = rateLimit({
   windowMs: 60 * 1000, 
-  max: 5,              
-}));
-
-const PUBLIC_DIR = path.join(__dirname, 'public');
-app.use(express.static(PUBLIC_DIR));
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
+  max: 5, 
 });
+app.use('/contact', limiter);
 
 app.post('/contact', async (req, res) => {
   const { name, email, subject, message } = req.body;
 
+  if (!name || !email || !subject || !message) {
+    return res.status(400).json({ error: 'Alle Felder sind erforderlich' });
+  }
+
   try {
-    const transporter = nodemailer.createTransport({
+    
+    let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        pass: process.env.EMAIL_PASS, 
       },
     });
 
     await transporter.sendMail({
-      from: `"${name}" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_TO || process.env.EMAIL_USER,
-      replyTo: email,
-      subject: subject || 'Neue Kontaktanfrage',
-      text: `Name: ${name}\nE-Mail: ${email}\n\n${message}`,
+      from: `"Kontaktformular" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER,
+      subject: `Neue Nachricht: ${subject}`,
+      text: `
+        Von: ${name} (${email})
+        Betreff: ${subject}
+        
+        Nachricht:
+        ${message}
+      `,
     });
 
-    res.json({ ok: true, message: 'E-Mail erfolgreich gesendet!' });
-  } catch (err) {
-    console.error('Mail Fehler:', err);
-    res.status(500).json({ ok: false, error: 'E-Mail Versand fehlgeschlagen' });
+    res.status(200).json({ success: 'Nachricht erfolgreich gesendet' });
+  } catch (error) {
+    console.error('Fehler beim Mailversand:', error);
+    res.status(500).json({ error: 'Fehler beim Senden der Nachricht' });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Server läuft auf http://localhost:${PORT}`);
+  console.log(`🚀 Server läuft auf Port ${PORT}`);
 });

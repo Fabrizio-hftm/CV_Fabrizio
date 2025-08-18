@@ -217,7 +217,7 @@
 
         <section class="section" id="contact">
             <h2 class="section-title">Kontakt</h2>
-            <form class="contact-form" id="contactForm" method="POST" action="/contact">
+            <form class="contact-form" id="contactForm">
                 <div class="form-group">
                     <label for="name">Name *</label>
                     <input type="text" id="name" name="name" class="form-control" required>
@@ -235,6 +235,7 @@
                     <textarea id="message" name="message" class="form-control" required></textarea>
                 </div>
                 <button type="submit" class="btn-primary">Nachricht senden</button>
+                <p id="contactStatus" aria-live="polite"></p>
             </form>
         </section>
     </div>

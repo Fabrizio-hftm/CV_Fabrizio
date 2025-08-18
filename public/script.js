@@ -118,24 +118,36 @@ function animateSkillBars() {
 function setupContactForm() {
   const contactForm = document.getElementById('contactForm');
   if (!contactForm) return;
-  contactForm.addEventListener('submit', function (e) {
+
+  contactForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const formData = new FormData(this);
     const data = {};
     formData.forEach((value, key) => { data[key] = value; });
 
-    alert(
-      'Vielen Dank für Ihre Nachricht! Ich werde mich bald bei Ihnen melden.\n\n' +
-      'Gesendete Daten:\n' +
-      `Name: ${data.name}\n` +
-      `E-Mail: ${data.email}\n` +
-      `Betreff: ${data.subject}\n`
-    );
+    try {
+      const response = await fetch('/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-
+      if (response.ok) {
+        alert('Vielen Dank für Ihre Nachricht! Ich werde mich bald bei Ihnen melden.');
+        contactForm.reset();
+      } else {
+        alert('⚠️ Fehler beim Senden. Bitte versuchen Sie es erneut.');
+      }
+    } catch (error) {
+      console.error('Fehler beim Senden:', error);
+      alert('Netzwerkfehler – bitte überprüfen Sie Ihre Verbindung.');
+    }
   });
 }
+
 
 
 function toggleMenu() {
