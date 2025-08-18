@@ -17,7 +17,7 @@ app.use('/contact', rateLimit({
   max: 5,              
 }));
 
-const PUBLIC_DIR = path.join(__dirname, 'CV');
+const PUBLIC_DIR = path.join(__dirname, 'public');
 app.use(express.static(PUBLIC_DIR));
 
 app.get('/', (req, res) => {

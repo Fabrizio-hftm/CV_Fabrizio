@@ -224,9 +224,10 @@
 
         .skills-controls {
             display: flex;
-            justify-content: center;
-            margin-bottom: 40px;
-            text-align: center;
+            justify-content: center;   
+            align-items: center;       
+            margin: 0 auto 40px auto;  
+            width: 100%;
         }
 
         #skillFilter {
@@ -439,27 +440,30 @@
         }
 
         .resp-item {
-            background: var(--bg-secondary);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
+            position: relative;
+            cursor: pointer;
+            user-select: none;
         }
 
         .resp-description {
             display: none;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            background: #f0f4f8;
-            padding: 10px;
-            border-radius: 6px;
+            margin-top: 8px;
+            padding: 10px 12px;
+            background: #f6f9ff;
+            border-left: 3px solid var(--primary-color);
+             border-radius: 8px;
+            font-size: 0.95rem;
+            color: #334155;
             box-shadow: var(--shadow-sm);
-            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .resp-item.open .resp-description {
+            display: block;
+            animation: fadeInUp 160ms ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
