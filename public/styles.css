@@ -1,4 +1,4 @@
-        * {
+* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -293,20 +293,26 @@
 
         .skill-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
+            gap: 30px;
         }
 
         .skill-name {
             font-weight: 600;
             font-size: 1.1rem;
             color: var(--text-primary);
+            flex: 1;
         }
 
         .skill-percentage {
             font-weight: 500;
             color: var(--primary-color);
+            flex-shrink: 0;
+            margin-left: auto;
+            min-width: 40px;
+            text-align: right;
         }
 
         .skill-category {
