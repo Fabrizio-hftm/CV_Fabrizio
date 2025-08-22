@@ -38,10 +38,21 @@
 
         .burger-icon {
             font-size: 36px;
-            color: rgb(87, 87, 87);
+            color: #5f7ab4;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             cursor: pointer;
             user-select: none;
             margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .burger-icon:hover {
+            background: white;
+            color: var(--primary-dark);
+            transform: scale(1.05);
         }
 
         .dropdown-menu {
