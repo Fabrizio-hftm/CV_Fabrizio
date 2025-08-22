@@ -23,145 +23,127 @@ const skillsData = [
   { name: 'Italienisch', level: 40, category: 'languages-spoken' }
 ];
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   renderSkills(skillsData);
   setupSkillFilter();
   setupContactForm();
-  animateSkillBars();
-
-
-  document.querySelectorAll('#dropdownMenu a').forEach(link => {
-    link.addEventListener('click', () => {
-      document.getElementById('dropdownMenu').style.display = 'none';
-    });
-  });
-
-
-  document.addEventListener('click', function (event) {
-    const menu = document.getElementById('dropdownMenu');
-    const icon = document.querySelector('.burger-icon');
-    if (menu && icon && !menu.contains(event.target) && !icon.contains(event.target)) {
-      menu.style.display = 'none';
-    }
-  });
+  setupMenuCloseOnClick();
+  setUpSkillsObserver();
 });
 
-
 function renderSkills(skills) {
-  const skillsGrid = document.getElementById('skillsGrid');
-  if (!skillsGrid) return;
-  skillsGrid.innerHTML = '';
+  const grid = document.getElementById('skillsGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
 
-  skills.forEach((skill, index) => {
-    const skillElement = document.createElement('div');
-    skillElement.className = 'skill-item';
-    skillElement.setAttribute('data-category', skill.category);
-
-    skillElement.innerHTML = `
+  const frag = document.createDocumentFragment();
+  skills.forEach(skill => {
+    const el = document.createElement('div');
+    el.className = 'skill-item';
+    el.setAttribute('data-category', skill.category);
+    el.innerHTML = `
       <div class="skill-category">${getCategoryName(skill.category)}</div>
       <div class="skill-header">
         <div class="skill-name">${skill.name}</div>
         <div class="skill-percentage">${skill.level}%</div>
       </div>
       <div class="progress-bar">
-        <div class="progress-fill" data-level="${skill.level}"></div>
-      </div>
-    `;
-
-    skillsGrid.appendChild(skillElement);
+        <div class="progress-fill" style="--level:${skill.level}"></div>
+      </div>`;
+    frag.appendChild(el);
   });
+  grid.appendChild(frag);
 }
 
 function getCategoryName(category) {
   const names = {
-    'technical': 'Technische Fähigkeiten',
-    'software': 'Software & Tools',
-    'languages': 'Programmiersprachen',
-    'personal': 'Persönliche Fähigkeiten',
+    technical: 'Technische Fähigkeiten',
+    software: 'Software & Tools',
+    languages: 'Programmiersprachen',
+    personal: 'Persönliche Fähigkeiten',
     'languages-spoken': 'Sprachkenntnisse'
   };
   return names[category] || category;
 }
 
 function setupSkillFilter() {
-  const filterDropdown = document.getElementById('skillFilter');
-  if (!filterDropdown) return;
-  filterDropdown.addEventListener('change', function () {
-    const selectedCategory = this.value;
-    const skillItems = document.querySelectorAll('.skill-item');
-
-    skillItems.forEach(item => {
-      if (selectedCategory === 'all' || item.getAttribute('data-category') === selectedCategory) {
-        item.classList.remove('hidden');
-      } else {
-        item.classList.add('hidden');
-      }
+  const filter = document.getElementById('skillFilter');
+  if (!filter) return;
+  filter.addEventListener('change', () => {
+    const c = filter.value;
+    document.querySelectorAll('.skill-item').forEach(item => {
+      item.classList.toggle('hidden', !(c === 'all' || item.dataset.category === c));
     });
-
-    setTimeout(animateSkillBars, 100);
   });
 }
 
-function animateSkillBars() {
-  const progressBars = document.querySelectorAll('.progress-fill');
-  progressBars.forEach((bar, index) => {
-    const level = bar.getAttribute('data-level');
-    const parentItem = bar.closest('.skill-item');
-    if (!parentItem.classList.contains('hidden')) {
-      setTimeout(() => {
-        bar.style.width = level + '%';
-      }, index * 100);
+function setUpSkillsObserver() {
+  const observer = new IntersectionObserver(entries => {
+    requestAnimationFrame(() => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.progress-fill').forEach(bar => observer.observe(bar));
+}
+
+function setupMenuCloseOnClick() {
+  document.querySelectorAll('#dropdownMenu a').forEach(link => {
+    link.addEventListener('click', () => {
+      const menu = document.getElementById('dropdownMenu');
+      if (menu) menu.style.display = 'none';
+      const btn = document.querySelector('.burger-icon');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  document.addEventListener('click', e => {
+    const menu = document.getElementById('dropdownMenu');
+    const icon = document.querySelector('.burger-icon');
+    if (!menu || !icon) return;
+    if (!menu.contains(e.target) && !icon.contains(e.target)) {
+      menu.style.display = 'none';
+      icon.setAttribute('aria-expanded', 'false');
     }
   });
 }
 
 function setupContactForm() {
-  const contactForm = document.getElementById('contactForm');
-  if (!contactForm) return;
+  const form = document.getElementById('contactForm');
+  if (!form) return;
 
-  contactForm.addEventListener('submit', async function (e) {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-
-    const formData = new FormData(this);
-    const data = {};
-    formData.forEach((value, key) => { data[key] = value; });
+    const data = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const response = await fetch('/contact', {
+      const res = await fetch('/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
       });
-
-      if (response.ok) {
-        alert('Vielen Dank für Ihre Nachricht! Ich werde mich bald bei Ihnen melden.');
-        contactForm.reset();
-      } else {
-        alert('⚠️ Fehler beim Senden. Bitte versuchen Sie es erneut.');
-      }
-    } catch (error) {
-      console.error('Fehler beim Senden:', error);
-      alert('Netzwerkfehler – bitte überprüfen Sie Ihre Verbindung.');
+      alert(res.ok
+        ? 'Vielen Dank für Ihre Nachricht! Ich melde mich bald.'
+        : '⚠️ Fehler beim Senden. Bitte erneut versuchen.');
+      if (res.ok) form.reset();
+    } catch (err) {
+      console.error(err);
+      alert('Netzwerkfehler – bitte Verbindung prüfen.');
     }
   });
 }
 
 
-
 function toggleMenu() {
   const menu = document.getElementById('dropdownMenu');
-  if (!menu) return;
-  menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
-}
-
-function toggleDescription(item) {
-  const desc = item.querySelector('.resp-description');
-  if (!desc) return;
-
-  const all = document.querySelectorAll('.resp-description');
-  all.forEach(el => { if (el !== desc) el.style.display = 'none'; });
-
-  desc.style.display = (desc.style.display === 'block') ? 'none' : 'block';
+  const btn = document.querySelector('.burger-icon');
+  if (!menu || !btn) return;
+  const open = menu.style.display === 'flex';
+  menu.style.display = open ? 'none' : 'flex';
+  btn.setAttribute('aria-expanded', String(!open));
 }
