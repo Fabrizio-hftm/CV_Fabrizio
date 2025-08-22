@@ -1,4 +1,3 @@
-/* System-Font (keine Google-Fonts) */
 :root {
   --primary-color: #5f7ab4;
   --primary-dark: #2043a1;
@@ -116,7 +115,6 @@ main {
   border-radius: 2px;
 }
 
-/* Skills */
 .skills-controls {
   display: flex;
   justify-content: center;
@@ -311,7 +309,6 @@ main {
   line-height: 1.6;
 }
 
-/* Responsibilities */
 .responsibilities {
   margin-top: 20px;
 }
@@ -408,7 +405,6 @@ textarea.form-control {
   box-shadow: var(--shadow-lg);
 }
 
-/* Referenzen */
 .references-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
