@@ -1,9 +1,23 @@
 {
+  "name": "cv-fabrizio",
+  "version": "1.0.0",
+  "description": "Portfolio Website von Fabrizio Paci mit Kontaktformular",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["portfolio", "cv", "node.js", "express"],
+  "author": "Fabrizio Paci",
+  "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "express-rate-limit": "^8.0.1",
-    "nodemailer": "^7.0.5"
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.1",
+    "nodemailer": "^6.9.15"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
