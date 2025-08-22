@@ -6,103 +6,66 @@
     <title>Fabrizio Paci - ICT-Fachmann EFZ</title>
     <meta name="description" content="Fabrizio Paci - ICT-Fachmann EFZ mit Expertise in System & Netzwerk, Client-Management und IT-Support">
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary-color: #5f7ab4;
-            --primary-dark: #2043a1;
-            --text-primary: #1e293b;
-            --bg-primary: #ffffff;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background-color: var(--bg-primary);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 80px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header-content {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 40px;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .profile-image {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            font-weight: bold;
-            color: white;
-        }
-        
-        .header-info h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        
-        .header-info .subtitle {
-            font-size: 1.5rem;
-            opacity: 0.9;
-            margin-bottom: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            .header-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-                gap: 30px;
-            }
-            
-            .header-info h1 {
-                font-size: 2.2rem;
-            }
-            
-            .profile-image {
-                width: 120px;
-                height: 120px;
-                font-size: 36px;
-            }
-        }
-    </style>
-
-    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="styles.css"></noscript>
 
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+
+        .profile-image {
+            width: 250px !important;
+            height: 250px !important;
+        }
+        
+        .skill-header {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 30px !important;
+        }
+        
+        .skill-name {
+            flex: 1 !important;
+        }
+        
+        .skill-percentage {
+            flex-shrink: 0 !important;
+            margin-left: auto !important;
+            min-width: 40px !important;
+            text-align: right !important;
+        }
+        
+        .burger-icon {
+            color: #5f7ab4 !important;
+            background: rgba(255, 255, 255, 0.9) !important;
+            border-radius: 8px !important;
+            padding: 8px !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .burger-icon:hover {
+            background: white !important;
+            color: #2043a1 !important;
+            transform: scale(1.05) !important;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-image {
+                width: 120px !important;
+                height: 120px !important;
+            }
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -120,7 +83,10 @@
     <div class="container">
         <div class="header-content">
             <div class="profile-image">
-                <img src="/images/Fabrizio.jpg" alt="Profilbild von Fabrizio Paci" class="profile-image" loading="eager" width="250" height="250">
+
+                <img src="/images/Fabrizio.jpg" alt="Profilbild von Fabrizio Paci" 
+                     width="250" height="250" loading="eager" fetchpriority="high"
+                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
             </div>
             <div class="header-info">
                 <h1>Fabrizio Paci</h1>
@@ -149,6 +115,7 @@
 </header>
 
 <main>
+
     <section class="section" id="skills">
     <h2 class="section-title">Fähigkeiten & Kenntnisse</h2>
     <div class="skills-controls">
@@ -168,6 +135,8 @@
    <section class="section" id="experience">
     <h2 class="section-title">Berufserfahrung</h2>
     <div class="timeline">
+
+
         <div class="timeline-item">
             <div class="timeline-date">2024 - Jetzt</div>
             <div class="timeline-title">IT-Verantwortlicher</div>
@@ -193,6 +162,7 @@
                 </div>
             </div>
         </div>
+
 
         <div class="timeline-item">
             <div class="timeline-date">2023 - 2024</div>
@@ -276,6 +246,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </section>
 
@@ -334,14 +305,6 @@
         <p>&copy; 2025 Fabrizio Paci. Alle Rechte vorbehalten.</p>
     </div>
 </footer>
-
-<script>
-    const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap';
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
-</script>
-
-<script src="script.js" defer></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
