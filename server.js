@@ -1,3 +1,24 @@
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const nodemailer = require('nodemailer');
+const rateLimit = require('express-rate-limit');
+const path = require('path');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(cors());
+app.use(express.json());
+app.use(express.static('public'));
+
+const limiter = rateLimit({
+  windowMs: 60 * 1000, 
+  max: 5, 
+  message: { error: 'Zu viele Anfragen. Bitte warten Sie einen Moment.' }
+});
+app.use('/contact', limiter);
+
 app.post('/contact', async (req, res) => {
   const { name, email, subject, message } = req.body;
 
@@ -19,11 +40,10 @@ app.post('/contact', async (req, res) => {
   }
 
   try {
-
     let transporter = nodemailer.createTransporter({
       host: process.env.EMAIL_HOST || 'smtp.gmail.com',
       port: parseInt(process.env.EMAIL_PORT || '465'),
-      secure: true, 
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -45,7 +65,7 @@ app.post('/contact', async (req, res) => {
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #5f7ab4, #2043a1); color: white; padding: 20px; border-radius: 8px 8px 0 0;">
-            <h2 style="margin: 0;"> Neue Kontaktanfrage</h2>
+            <h2 style="margin: 0;">Neue Kontaktanfrage</h2>
             <p style="margin: 5px 0 0 0; opacity: 0.9;">Über dein Portfolio-Kontaktformular</p>
           </div>
           
@@ -55,17 +75,17 @@ app.post('/contact', async (req, res) => {
               <span style="color: #1e293b;">${name}</span>
             </div>
             <div style="margin-bottom: 15px;">
-              <strong style="color: #2043a1;"> E-Mail:</strong> 
+              <strong style="color: #2043a1;">E-Mail:</strong> 
               <span style="color: #1e293b;">${email}</span>
             </div>
             <div style="margin-bottom: 15px;">
-              <strong style="color: #2043a1;"> Betreff:</strong> 
+              <strong style="color: #2043a1;">Betreff:</strong> 
               <span style="color: #1e293b;">${subject}</span>
             </div>
           </div>
           
           <div style="background: white; padding: 25px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 8px 8px;">
-            <h3 style="color: #2043a1; margin: 0 0 15px 0;">💬 Nachricht:</h3>
+            <h3 style="color: #2043a1; margin: 0 0 15px 0;">Nachricht:</h3>
             <div style="background: #f9fafb; padding: 15px; border-radius: 6px; border-left: 3px solid #5f7ab4;">
               <p style="white-space: pre-line; margin: 0; color: #374151; line-height: 1.6;">${message}</p>
             </div>
@@ -100,7 +120,7 @@ app.post('/contact', async (req, res) => {
     
     if (error.code === 'EAUTH') {
       userMessage = 'Authentifizierungsfehler - bitte kontaktiere den Administrator';
-      console.error('🔑 HINWEIS: Überprüfe EMAIL_USER und EMAIL_PASS (App-Passwort!)');
+      console.error('HINWEIS: Überprüfe EMAIL_USER und EMAIL_PASS (App-Passwort!)');
     } else if (error.code === 'ESOCKET') {
       userMessage = 'Netzwerkfehler - bitte versuche es später erneut';
       console.error('HINWEIS: Netzwerkproblem oder falscher HOST/PORT');
@@ -114,4 +134,17 @@ app.post('/contact', async (req, res) => {
       code: error.code 
     });
   }
+});
+
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`Server läuft auf Port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
