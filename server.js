@@ -40,7 +40,7 @@ app.post('/contact', async (req, res) => {
   }
 
   try {
-    let transporter = nodemailer.createTransporter({
+    let transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST || 'smtp.gmail.com',
       port: parseInt(process.env.EMAIL_PORT || '465'),
       secure: true,
