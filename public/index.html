@@ -12,35 +12,35 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
+    
     <link rel="stylesheet" href="styles.css">
-
+    
     <style>
-        .profile-image {
-            width: 250px !important;
-            height: 250px !important;
-        }
-        
-        .skill-header {
-            display: flex !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-            gap: 30px !important;
-        }
-        
-        .skill-name {
-            flex: 1 !important;
-        }
-        
-        .skill-percentage {
-            flex-shrink: 0 !important;
-            margin-left: auto !important;
-            min-width: 40px !important;
-            text-align: right !important;
+        @media (max-width: 768px) {
+            .header-content {
+                grid-template-columns: 1fr !important;
+                text-align: center !important;
+                gap: 30px !important;
+                justify-items: center !important;
+            }
+            
+            .profile-image {
+                margin: 0 auto !important;
+                justify-self: center !important;
+            }
+            
+            .header-info {
+                text-align: center !important;
+            }
+            
+            .contact-info {
+                flex-direction: column !important;
+                gap: 15px !important;
+            }
         }
     </style>
+    
     <script>
-
         const fontLink = document.createElement('link');
         fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap';
         fontLink.rel = 'stylesheet';
@@ -48,7 +48,6 @@
         fontLink.onload = function() { this.media = 'all'; };
         document.head.appendChild(fontLink);
         
-        // Fallback
         setTimeout(() => {
             if (fontLink.media === 'print') {
                 fontLink.media = 'all';
@@ -58,8 +57,8 @@
 </head>
 <body>
 <header>
-    <nav class="nav-container">
-        <div class="burger-icon" onclick="toggleMenu()">☰</div>
+    <nav class="nav-container" role="navigation">
+        <button class="burger-icon" onclick="toggleMenu()" aria-label="Menü öffnen">☰</button>
         <ul class="dropdown-menu" id="dropdownMenu">
             <li><a href="#skills">Fähigkeiten</a></li>
             <li><a href="#experience">Berufserfahrung</a></li>
@@ -101,9 +100,7 @@
             </div>
         </div>
     </div>
-</header>
-
-<main>
+</header>   <main role="main">
 
     <section class="section" id="skills">
     <h2 class="section-title">Fähigkeiten & Kenntnisse</h2>
@@ -125,10 +122,9 @@
     <h2 class="section-title">Berufserfahrung</h2>
     <div class="timeline">
 
-
-        <div class="timeline-item">
+        <article class="timeline-item">
             <div class="timeline-date">2024 - Jetzt</div>
-            <div class="timeline-title">IT-Verantwortlicher</div>
+            <h3 class="timeline-title">IT-Verantwortlicher</h3>
             <div class="timeline-company">Verkehrsclub Schweiz, Bern</div>
             <div class="timeline-description">
                 1 Jahr Verantwortlicher der Informatik. Hauptaufgaben sind die Betreuung der Mitarbeiter, des Netzwerks, der Sicherheit und Handhabung der Sektionen.
@@ -150,12 +146,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </article>
 
-
-        <div class="timeline-item">
+        <article class="timeline-item">
             <div class="timeline-date">2023 - 2024</div>
-            <div class="timeline-title">Abteilungsleiter Informatik</div>
+            <h3 class="timeline-title">Abteilungsleiter Informatik</h3>
             <div class="timeline-company">Verkehrsclub Schweiz, Bern</div>
             <div class="timeline-description">
                 1 Jahr Abteilungsleiter der Informatik mit Projektleitung Sharepoint-Migration, Co-Projektleitung & Business Analyst ERP/CRM Erneuerung
@@ -186,11 +181,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </article>
 
-        <div class="timeline-item">
+        <article class="timeline-item">
             <div class="timeline-date">2021 - 2023</div>
-            <div class="timeline-title">ICT-Fachmann EFZ</div>
+            <h3 class="timeline-title">ICT-Fachmann EFZ</h3>
             <div class="timeline-company">JAG Jakob AG Prozesstechnik, Brügg</div>
             <div class="timeline-description">
                 2 Jahre Praktikum als ICT-Fachmann mit umfassenden Verantwortlichkeiten im IT-Bereich. Vertiefung und Perfektionierung der IT-Kenntnisse in allen Bereichen.
@@ -234,7 +229,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </article>
 
     </div>
 </section>
