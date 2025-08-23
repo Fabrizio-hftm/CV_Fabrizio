@@ -7,20 +7,40 @@
     <meta name="description" content="Fabrizio Paci - ICT-Fachmann EFZ mit Expertise in System & Netzwerk, Client-Management und IT-Support">
     <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     
-    <!-- DNS Prefetch for faster loading -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     
-    <!-- Preconnect for critical resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Load CSS first -->
+
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- Load fonts asynchronously -->
+
+    <style>
+        .profile-image {
+            width: 250px !important;
+            height: 250px !important;
+        }
+        
+        .skill-header {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 30px !important;
+        }
+        
+        .skill-name {
+            flex: 1 !important;
+        }
+        
+        .skill-percentage {
+            flex-shrink: 0 !important;
+            margin-left: auto !important;
+            min-width: 40px !important;
+            text-align: right !important;
+        }
+    </style>
     <script>
-        // Load Google Fonts without blocking render
+
         const fontLink = document.createElement('link');
         fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap';
         fontLink.rel = 'stylesheet';
@@ -53,8 +73,9 @@
         <div class="header-content">
             <div class="profile-image">
                 <img src="/images/Fabrizio.jpg" alt="Profilbild von Fabrizio Paci" 
-                     width="250" height="250" loading="eager" fetchpriority="high"
-                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                     width="250" height="250" loading="eager" 
+                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"
+                     onerror="this.style.display='none'; this.parentNode.innerHTML='FP';">
             </div>
             <div class="header-info">
                 <h1>Fabrizio Paci</h1>
