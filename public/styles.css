@@ -47,6 +47,7 @@
             user-select: none;
             margin-bottom: 10px;
             transition: all 0.3s ease;
+            border: none;
         }
 
         .burger-icon:hover {
@@ -591,19 +592,56 @@
                 grid-template-columns: 1fr;
                 text-align: center;
                 gap: 30px;
+                justify-items: center;
+                align-items: center;
+            }
+
+            .header-info {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                width: 100%;
+                max-width: 100%;
             }
 
             .header-info h1 {
                 font-size: 2.2rem;
+                text-align: center;
+                margin-bottom: 15px;
             }
 
             .header-info .subtitle {
                 font-size: 1.2rem;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .header-info .description {
+                text-align: center;
+                max-width: 100%;
+                margin-bottom: 30px;
             }
 
             .contact-info {
                 flex-direction: column;
                 gap: 15px;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .contact-item {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .profile-image {
+                width: 120px;
+                height: 120px;
+                font-size: 36px;
+                margin: 0 auto;
+                justify-self: center;
             }
 
             .section-title {
@@ -618,7 +656,6 @@
                 position: relative;
             }
 
-
             .timeline-item {
                 background: white;
                 padding: 30px;
@@ -629,8 +666,6 @@
                 margin: 40px auto;
                 width: 100%;
             }
-
-
 
             .contact-form {
                 padding: 30px 20px;
